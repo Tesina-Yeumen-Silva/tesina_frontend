@@ -1,8 +1,13 @@
 @import "tailwindcss";
+@import "@heroui/styles"; 
 
 @theme {
-  --color-primary: #3b82f6;
-  --color-brand-dark: #1e3a8a;
-  --font-family-sans: 'Inter', system-ui, sans-serif;
-  --radius-xl: 1rem;
+  --color-mendoza-blue-night:      #0F2352;
+  --color-mendoza-blue-primary:    #1A3A7E;
+  --color-mendoza-blue-mid:        #2E5FBF;
+  --color-mendoza-blue-secondary:  #4A82D8;
+  --color-mendoza-blue-soft:       #7EB0ED;
+  --color-mendoza-blue-light:      #B8D6F7;
+  --color-mendoza-blue-bg:         #E3EEF9;
+  --color-mendoza-blue-bg-soft:    #F0F5FC;
 }
