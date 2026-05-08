@@ -11,11 +11,14 @@ const Sidebar = ({
   const [views, setViews] = useState<{ name: string; path: string }[]>([]);
 
   useEffect(() => {
-    setViews([{ name: "Home", path: "home" }]);
+    setViews([
+      { name: "Mapa", path: "reportMap" },
+      { name: "Lista", path: "reportList" },
+    ]);
   }, []);
 
   return (
-    <div className="absolute top-0 w-[25dvh] h-screen px-5 py-9 bg-mendoza-blue-mid z-20 flex flex-col">
+    <div className="absolute top-0 w-[25dvh] h-screen px-5 py-9 bg-mendoza-blue-mid z-[9999] flex flex-col">
       <div className="flex gap-2 flex-col h-[90dvh]">
         {views.map((view) => (
           <Button
