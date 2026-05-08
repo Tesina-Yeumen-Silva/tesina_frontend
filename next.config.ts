@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+import { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const config: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "User-Agent",
+            value: "MendozaReporta/1.0 (contacto@tuapp.com)",
+          },
+        ],
+      },
+    ];
+  },
 };
-
-export default nextConfig;
