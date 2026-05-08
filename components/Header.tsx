@@ -2,7 +2,6 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { IoMdMenu } from "react-icons/io";
 import { MdHome } from "react-icons/md";
 import Sidebar from "./Sidebar";
