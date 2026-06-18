@@ -1,6 +1,7 @@
 import { NextConfig } from "next";
 
 const config: NextConfig = {
+  output: "standalone",
   async headers() {
     return [
       {
@@ -15,3 +16,5 @@ const config: NextConfig = {
     ];
   },
 };
+
+export default config;
