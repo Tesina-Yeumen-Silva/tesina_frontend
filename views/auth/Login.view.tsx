@@ -17,7 +17,7 @@ import {
   MdVisibilityOff,
   MdVisibility,
 } from "react-icons/md";
-import LoadIcon from "../LoadIcon";
+import LoadIcon from "../../components/ui/LoadIcon";
 
 const LoginView = () => {
   const [email, setEmail] = useState("");
