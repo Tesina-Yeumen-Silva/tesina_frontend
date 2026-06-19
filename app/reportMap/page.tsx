@@ -1,4 +1,4 @@
-import ReportMapView from "@/components/reportMap/ReportMapView";
+import ReportMapView from "@/views/reportMap/ReportMap.view";
 import React from "react";
 
 const ReportMap = () => {

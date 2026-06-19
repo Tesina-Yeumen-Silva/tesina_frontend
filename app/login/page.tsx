@@ -1,4 +1,4 @@
-import LoginView from "@/components/login/LoginView";
+import LoginView from "@/views/auth/Login.view";
 import React from "react";
 
 const Login = () => {
