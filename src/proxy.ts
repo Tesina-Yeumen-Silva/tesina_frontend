@@ -7,7 +7,7 @@ import {
   USER_COOKIE,
 } from "./lib/config";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Ignorar peticiones de Server Actions de Next.js para que no interfiera con sus respuestas internas
   if (request.headers.has("next-action")) {
     return NextResponse.next();
