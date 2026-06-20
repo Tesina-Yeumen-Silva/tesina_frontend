@@ -1,3 +1,5 @@
+"use server";
+
 import { createSession, destroySession } from "@/lib/session";
 import { validate, toFailure, field } from "@/lib/validation";
 import { ActionResult } from "@/models/common";
@@ -33,7 +35,7 @@ export async function loginAction(
     return toFailure(error);
   }
 
-  const redirectTo = field(formData, "redirect") ?? "/";
+  const redirectTo = field(formData, "redirect") ?? "/reportMap";
   redirect(redirectTo);
 }
 

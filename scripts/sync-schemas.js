@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.join(__dirname, '../../tesina_backend/src/schemas');
-const destDir = path.join(__dirname, '../models/schemas');
+const destDir = path.join(__dirname, '../src/models/schemas');
 
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });

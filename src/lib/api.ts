@@ -57,7 +57,7 @@ async function request<T>(
   const payload = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
-    if (res.status === 401) redirect("/login");
+    if (res.status === 401 && !skipAuth) redirect("/login");
     const message =
       payload?.message ?? "Ocurrió un error al comunicarse con el servidor.";
 

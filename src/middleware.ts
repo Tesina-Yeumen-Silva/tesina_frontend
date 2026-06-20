@@ -7,7 +7,12 @@ import {
   USER_COOKIE,
 } from "./lib/config";
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  // Ignorar peticiones de Server Actions de Next.js para que no interfiera con sus respuestas internas
+  if (request.headers.has("next-action")) {
+    return NextResponse.next();
+  }
+
   const { pathname } = request.nextUrl;
 
   const response = NextResponse.next();
@@ -49,7 +54,7 @@ export async function proxy(request: NextRequest) {
           request.cookies.set(AUTH_COOKIE, newAccessToken);
 
           if (isLoginPage) {
-            return NextResponse.redirect(new URL("/", request.url));
+            return NextResponse.redirect(new URL("/reportMap", request.url));
           }
 
           return response;
@@ -78,7 +83,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isUserAuthenticated && isLoginPage) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/reportMap", request.url));
   }
 
   return response;

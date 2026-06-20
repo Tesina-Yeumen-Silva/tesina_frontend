@@ -1,14 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import {
-  Button,
-  FieldError,
-  Form,
-  Input,
-  Label,
-  TextField,
-} from "@heroui/react";
+import { useActionState } from "react";
+import { Button, FieldError, Input, Label, TextField } from "@heroui/react";
 import {
   MdLocationPin,
   MdEmail,
@@ -18,18 +12,11 @@ import {
   MdVisibility,
 } from "react-icons/md";
 import LoadIcon from "../../components/ui/LoadIcon";
+import { loginAction } from "@/controllers/auth.controller";
 
 const LoginView = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-  };
+  const [state, action, isPending] = useActionState(loginAction, null);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-300">
@@ -50,7 +37,7 @@ const LoginView = () => {
         </div>
 
         <div className="bg-white px-8 py-8">
-          <Form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <form action={action} className="flex flex-col gap-5">
             <TextField
               isRequired
               name="email"
@@ -72,8 +59,6 @@ const LoginView = () => {
                 />
                 <Input
                   placeholder="tu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-mendoza-blue-mid"
                 />
               </div>
@@ -102,8 +87,6 @@ const LoginView = () => {
                 />
                 <Input
                   placeholder="Mínimo 8 caracteres"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:border-mendoza-blue-mid"
                 />
                 <button
@@ -133,9 +116,15 @@ const LoginView = () => {
               </a>
             </div>
 
+            {state?.ok === false && (
+              <p className="text-xs text-red-500 text-center -mt-2">
+                {state.error}
+              </p>
+            )}
+
             <Button
               type="submit"
-              isPending={isLoading}
+              isPending={isPending}
               className="w-full bg-mendoza-blue-primary text-white font-medium rounded-xl py-3"
             >
               {({ isPending }) => (
@@ -149,7 +138,7 @@ const LoginView = () => {
                 </>
               )}
             </Button>
-          </Form>
+          </form>
         </div>
       </div>
     </div>

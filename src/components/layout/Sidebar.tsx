@@ -1,6 +1,7 @@
 import { Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { logoutAction } from "@/controllers/auth.controller";
 
 const Sidebar = ({
   setIsSideBarOpen,
@@ -33,7 +34,11 @@ const Sidebar = ({
           </Button>
         ))}
       </div>
-      <Button className="w-full bg-gray-300">Cerrar Sesión</Button>
+      <form action={logoutAction} className="w-full">
+        <Button type="submit" className="w-full bg-red-500">
+          Cerrar Sesión
+        </Button>
+      </form>
     </div>
   );
 };
