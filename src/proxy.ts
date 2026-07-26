@@ -6,6 +6,7 @@ import {
   REFRESH_COOKIE,
   USER_COOKIE,
 } from "./lib/config";
+import { PANEL_ROLES } from "./models/role";
 
 export async function proxy(request: NextRequest) {
   // Ignorar peticiones de Server Actions de Next.js para que no interfiera con sus respuestas internas
@@ -77,6 +78,29 @@ export async function proxy(request: NextRequest) {
   }
 
   const isUserAuthenticated = Boolean(authToken || refreshToken);
+
+  const userCookie = request.cookies.get(USER_COOKIE)?.value;
+  let userRole: string | undefined;
+  if (userCookie) {
+    try {
+      const parsed = JSON.parse(decodeURIComponent(userCookie));
+      userRole = parsed?.role;
+    } catch {}
+  }
+
+  if (
+    isUserAuthenticated &&
+    userRole &&
+    !PANEL_ROLES.includes(userRole as any)
+  ) {
+    const redirectResponse = NextResponse.redirect(
+      new URL("/login", request.url),
+    );
+    redirectResponse.cookies.delete(AUTH_COOKIE);
+    redirectResponse.cookies.delete(REFRESH_COOKIE);
+    redirectResponse.cookies.delete(USER_COOKIE);
+    return redirectResponse;
+  }
 
   if (!isUserAuthenticated && !isLoginPage) {
     return NextResponse.redirect(new URL("/login", request.url));
