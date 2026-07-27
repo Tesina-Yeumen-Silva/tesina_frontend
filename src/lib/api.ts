@@ -22,8 +22,8 @@ export class ApiError extends Error {
 
 interface RequestOptions extends Omit<RequestInit, "body"> {
   body?: unknown;
-
   skipAuth?: boolean;
+  returnFullResponse?: boolean;
 }
 
 async function request<T>(
@@ -75,6 +75,10 @@ async function request<T>(
     }
 
     throw new ApiError(message, res.status, mappedFieldErrors);
+  }
+
+  if (init.returnFullResponse) {
+    return payload as T;
   }
 
   return (payload as ApiResponse<T>)?.data ?? (payload as T);

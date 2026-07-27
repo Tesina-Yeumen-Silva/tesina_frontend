@@ -15,7 +15,9 @@ const Sidebar = ({
   useEffect(() => {
     let userRole = "";
     if (typeof window !== "undefined") {
-      const match = document.cookie.match(new RegExp(`(^| )${USER_COOKIE}=([^;]+)`));
+      const match = document.cookie.match(
+        new RegExp(`(^| )${USER_COOKIE}=([^;]+)`),
+      );
       if (match) {
         try {
           const user = JSON.parse(decodeURIComponent(match[2]));
@@ -29,11 +31,8 @@ const Sidebar = ({
     const baseViews = [
       { name: "Mapa", path: "reportMap" },
       { name: "Lista", path: "reportList" },
+      { name: "Usuarios", path: "users" },
     ];
-
-    if (userRole === "admin") {
-      baseViews.push({ name: "Usuarios", path: "users" });
-    }
 
     setViews(baseViews);
   }, []);
