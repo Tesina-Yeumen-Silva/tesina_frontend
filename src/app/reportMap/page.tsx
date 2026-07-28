@@ -1,8 +1,9 @@
-import ReportMapView from "@/views/reportMap/ReportMap.view";
 import React from "react";
+import ReportMapView from "@/views/reportMap/ReportMap.view";
+import { getMapMarkersAction } from "@/controllers/report.controller";
 
-const ReportMap = () => {
-  return <ReportMapView />;
-};
+export default async function ReportMapPage() {
+  const initialMarkersResult = await getMapMarkersAction();
 
-export default ReportMap;
+  return <ReportMapView initialMarkersResult={initialMarkersResult} />;
+}
