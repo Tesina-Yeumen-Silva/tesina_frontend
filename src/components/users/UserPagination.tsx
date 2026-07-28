@@ -24,51 +24,58 @@ export const UserPagination: React.FC<UserPaginationProps> = ({
   const pages = Array.from({ length: safeTotalPages }, (_, i) => i + 1);
 
   return (
-    <Table.Footer className="border-t border-slate-100 px-4 py-3">
-      <Pagination size="sm">
-        <Pagination.Summary className="text-slate-500 text-xs">
-          {start} a {end} de {totalItems} resultados
-        </Pagination.Summary>
-        <Pagination.Content>
-          <Pagination.Item>
-            <Pagination.Previous
-              isDisabled={currentPage <= 1}
-              onPress={() => onPageChange(Math.max(1, currentPage - 1))}
-              className="text-slate-600 hover:text-blue-900 cursor-pointer"
-            >
-              <MdChevronLeft size={16} />
-              Anterior
-            </Pagination.Previous>
-          </Pagination.Item>
+    <Table.Footer className="border-t border-slate-100 px-6 py-3.5 w-full">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+        <span className="text-slate-500 text-xs font-semibold shrink-0">
+          Mostrando <strong className="text-slate-800 font-extrabold">{start}</strong> a{" "}
+          <strong className="text-slate-800 font-extrabold">{end}</strong> de{" "}
+          <strong className="text-slate-800 font-extrabold">{totalItems}</strong> resultados
+        </span>
 
-          {pages.map((p) => (
-            <Pagination.Item key={p}>
-              <Pagination.Link
-                isActive={p === currentPage}
-                onPress={() => onPageChange(p)}
-                className={
-                  p === currentPage
-                    ? "bg-blue-900 text-white rounded-lg cursor-pointer font-semibold"
-                    : "text-slate-600 hover:text-blue-900 rounded-lg cursor-pointer"
-                }
-              >
-                {p}
-              </Pagination.Link>
-            </Pagination.Item>
-          ))}
+        <div className="flex items-center justify-end ml-auto">
+          <Pagination size="sm">
+            <Pagination.Content className="flex items-center gap-1 justify-end ml-auto">
+              <Pagination.Item>
+                <Pagination.Previous
+                  isDisabled={currentPage <= 1}
+                  onPress={() => onPageChange(Math.max(1, currentPage - 1))}
+                  className="text-slate-600 hover:text-blue-900 cursor-pointer"
+                >
+                  <MdChevronLeft size={16} />
+                  Anterior
+                </Pagination.Previous>
+              </Pagination.Item>
 
-          <Pagination.Item>
-            <Pagination.Next
-              isDisabled={currentPage >= safeTotalPages}
-              onPress={() => onPageChange(Math.min(safeTotalPages, currentPage + 1))}
-              className="text-slate-600 hover:text-blue-900 cursor-pointer"
-            >
-              Siguiente
-              <MdChevronRight size={16} />
-            </Pagination.Next>
-          </Pagination.Item>
-        </Pagination.Content>
-      </Pagination>
+              {pages.map((p) => (
+                <Pagination.Item key={p}>
+                  <Pagination.Link
+                    isActive={p === currentPage}
+                    onPress={() => onPageChange(p)}
+                    className={
+                      p === currentPage
+                        ? "bg-blue-900 text-white rounded-lg cursor-pointer font-semibold"
+                        : "text-slate-600 hover:text-blue-900 rounded-lg cursor-pointer"
+                    }
+                  >
+                    {p}
+                  </Pagination.Link>
+                </Pagination.Item>
+              ))}
+
+              <Pagination.Item>
+                <Pagination.Next
+                  isDisabled={currentPage >= safeTotalPages}
+                  onPress={() => onPageChange(Math.min(safeTotalPages, currentPage + 1))}
+                  className="text-slate-600 hover:text-blue-900 cursor-pointer"
+                >
+                  Siguiente
+                  <MdChevronRight size={16} />
+                </Pagination.Next>
+              </Pagination.Item>
+            </Pagination.Content>
+          </Pagination>
+        </div>
+      </div>
     </Table.Footer>
   );
 };
