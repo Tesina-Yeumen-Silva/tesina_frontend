@@ -6,10 +6,10 @@ export const ROLE_STYLES: Record<string, { badge: string; avatar: string; label:
     avatar: "bg-rose-100 text-rose-700",
     label: "Administrador",
   },
-  muni: {
+  operador: {
     badge: "bg-sky-50 text-sky-700 border-sky-200",
     avatar: "bg-sky-100 text-sky-700",
-    label: "Municipal",
+    label: "Operador",
   },
   user: {
     badge: "bg-emerald-50 text-emerald-700 border-emerald-200",

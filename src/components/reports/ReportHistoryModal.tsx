@@ -111,6 +111,19 @@ export const ReportHistoryModal: React.FC<ReportHistoryModalProps> = ({
                           <span className="italic">{item.observation}</span>
                         </div>
                       )}
+
+                      {/* Operador / Administrador que respondió */}
+                      {item.user && (
+                        <div className="text-[11.5px] text-slate-500 font-medium pl-1 flex items-center gap-1.5">
+                          <span>👤 Respondido por:</span>
+                          <strong className="text-slate-700 font-semibold">{item.user.name}</strong>
+                          {item.user.role?.name && (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-bold uppercase tracking-wider">
+                              {item.user.role.name === "operador" ? "Operador" : item.user.role.name === "admin" ? "Admin" : item.user.role.name}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

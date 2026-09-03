@@ -49,6 +49,8 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
 
   if (!isOpen) return null;
 
+  const isOperator = roles.find((r) => r.id === Number(roleId))?.name === "operador";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
@@ -83,7 +85,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           </h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition"
+            className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer"
           >
             <MdClose size={18} />
           </button>
@@ -96,19 +98,52 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
             </div>
           )}
 
+          {/* Selector de Rol */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+              <MdBadge className="text-slate-400" size={16} />
+              Rol de Usuario
+            </label>
+            <select
+              value={roleId}
+              onChange={(e) => setRoleId(Number(e.target.value))}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-blue-800 focus:bg-white transition text-slate-800 cursor-pointer"
+            >
+              {roles.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.name === "admin"
+                    ? "Administrador"
+                    : r.name === "operador"
+                      ? "Operador"
+                      : "Ciudadano"}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Nombre / Entidad del Operador o Usuario */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
               <MdPerson className="text-slate-400" size={16} />
-              Nombre Completo
+              {isOperator ? "Nombre / Entidad del Operador" : "Nombre Completo"}
             </label>
             <input
               type="text"
               required
-              placeholder="Ej. Juan Pérez"
+              placeholder={
+                isOperator
+                  ? "Ej. Municipalidad, Juan (Edemsa), Servicios Públicos..."
+                  : "Ej. Juan Pérez"
+              }
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-blue-800 focus:bg-white transition text-slate-800"
             />
+            {isOperator && (
+              <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+                💡 Puedes especificar la entidad u organismo asignado (ej. <em>Municipalidad</em>, <em>Juan (Edemsa)</em>, <em>Aysam</em>).
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -144,33 +179,11 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
             </div>
           )}
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-              <MdBadge className="text-slate-400" size={16} />
-              Rol de Usuario
-            </label>
-            <select
-              value={roleId}
-              onChange={(e) => setRoleId(Number(e.target.value))}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:border-blue-800 focus:bg-white transition text-slate-800"
-            >
-              {roles.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.name === "admin"
-                    ? "Administrador"
-                    : r.name === "muni"
-                      ? "Municipal"
-                      : "Ciudadano"}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <div className="flex items-center justify-end gap-3 mt-4 pt-4 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition cursor-pointer"
             >
               Cancelar
             </button>

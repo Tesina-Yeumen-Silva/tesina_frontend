@@ -13,7 +13,7 @@ interface UserSearchInputProps {
 
 const ROLE_OPTIONS = [
   { key: "admin", label: "Administrador", activeBg: "bg-rose-100 text-rose-800 border-rose-300", badgeDot: "bg-rose-500" },
-  { key: "muni", label: "Municipal", activeBg: "bg-sky-100 text-sky-800 border-sky-300", badgeDot: "bg-sky-500" },
+  { key: "operador", label: "Operador", activeBg: "bg-sky-100 text-sky-800 border-sky-300", badgeDot: "bg-sky-500" },
   { key: "user", label: "Ciudadano", activeBg: "bg-emerald-100 text-emerald-800 border-emerald-300", badgeDot: "bg-emerald-500" },
 ];
 
@@ -54,8 +54,8 @@ export const UserSearchInput: React.FC<UserSearchInputProps> = ({
         )}
       </div>
 
-      {/* Fila Inferior: Filtros de Rol (Ocultos si es usuario municipal ya que solo ve ciudadanos) */}
-      {currentUserRole !== "muni" && (
+      {/* Fila Inferior: Filtros de Rol (Ocultos si es usuario operador ya que solo ve ciudadanos) */}
+      {currentUserRole !== "operador" && (
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
           <span className="text-xs font-semibold text-slate-500 flex items-center gap-1 mr-1">
             <MdFilterList size={16} className="text-blue-900" />
