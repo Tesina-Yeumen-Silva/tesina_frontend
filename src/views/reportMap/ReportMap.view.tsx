@@ -5,10 +5,13 @@ import type { ActionResult, MapMarker, ReportDetail } from "@/models";
 import {
   getMapMarkersAction,
   getReportByIdAction,
+  getReportCategoriesAction,
+  getReportStatesAction,
 } from "@/controllers/report.controller";
 import type { MapBounds } from "@/components/reportMap/OsmMap";
 import { ReportDetailModal } from "@/components/reportMap/ReportDetailModal";
 import { USER_COOKIE } from "@/lib/config";
+import type { ReportCategoryItem, ReportStateItem } from "@/models";
 
 const Map = dynamic(() => import("@/components/reportMap/OsmMap"), {
   ssr: false,
@@ -48,6 +51,27 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailError, setDetailError] = useState("");
 
+  const [categories, setCategories] = useState<ReportCategoryItem[]>([]);
+  const [states, setStates] = useState<ReportStateItem[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [selectedStateId, setSelectedStateId] = useState<string>("");
+
+  useEffect(() => {
+    async function loadFilters() {
+      const catsRes = await getReportCategoriesAction();
+      if (catsRes.ok && catsRes.data) {
+        setCategories(catsRes.data);
+      }
+      const statesRes = await getReportStatesAction();
+      if (statesRes.ok && statesRes.data) {
+        // Exclude some states if we only want Validado, Resuelto, En Progreso, but the user requested to filter markers by state. 
+        // We'll provide all fetched valid states.
+        setStates(statesRes.data);
+      }
+    }
+    loadFilters();
+  }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const match = document.cookie.match(
@@ -62,23 +86,31 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
     }
   }, []);
 
-  const fetchMarkersForBounds = useCallback(async (bounds: MapBounds) => {
+  const fetchMarkersForBounds = useCallback(async (bounds: MapBounds, catId?: string, stId?: string) => {
     setLoadingMarkers(true);
     setApiErrorMessage("");
 
-    const res = await getMapMarkersAction({
+    const query: any = {
       minLat: bounds.minLat,
       maxLat: bounds.maxLat,
       minLng: bounds.minLng,
       maxLng: bounds.maxLng,
-    });
+    };
+
+    if (catId) query.categoryId = Number(catId);
+    if (stId) query.stateId = Number(stId);
+
+    const res = await getMapMarkersAction(query);
     setLoadingMarkers(false);
 
     if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
       setMarkers(res.data);
     } else if (res.ok && Array.isArray(res.data)) {
-      // Si la consulta por bounds retornó 0 marcadores en esa vista, intentamos cargar todos como fallback
-      const fallbackRes = await getMapMarkersAction();
+      // Si la consulta por bounds retornó 0 marcadores en esa vista, intentamos cargar todos como fallback (con los mismos filtros)
+      const fallbackQuery: any = {};
+      if (catId) fallbackQuery.categoryId = Number(catId);
+      if (stId) fallbackQuery.stateId = Number(stId);
+      const fallbackRes = await getMapMarkersAction(fallbackQuery);
       if (fallbackRes.ok && Array.isArray(fallbackRes.data)) {
         setMarkers(fallbackRes.data);
       } else {
@@ -97,11 +129,18 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
       }
 
       debounceTimerRef.current = setTimeout(() => {
-        fetchMarkersForBounds(bounds);
+        fetchMarkersForBounds(bounds, selectedCategoryId, selectedStateId);
       }, 250);
     },
-    [fetchMarkersForBounds],
+    [fetchMarkersForBounds, selectedCategoryId, selectedStateId],
   );
+
+  // Refetch markers when filters change
+  useEffect(() => {
+    if (currentBoundsRef.current) {
+      fetchMarkersForBounds(currentBoundsRef.current, selectedCategoryId, selectedStateId);
+    }
+  }, [selectedCategoryId, selectedStateId, fetchMarkersForBounds]);
 
   const handleSelectMarker = async (markerId: number) => {
     setIsModalOpen(true);
@@ -129,6 +168,33 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
 
   return (
     <div className="w-full h-screen relative overflow-hidden bg-slate-100">
+      <div className="absolute top-4 left-4 z-20 flex flex-col md:flex-row gap-2">
+        <select
+          value={selectedCategoryId}
+          onChange={(e) => setSelectedCategoryId(e.target.value)}
+          className="px-3 py-2 rounded-xl bg-white/90 backdrop-blur-md text-slate-800 border border-slate-200/80 shadow-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">Todas las categorías</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedStateId}
+          onChange={(e) => setSelectedStateId(e.target.value)}
+          className="px-3 py-2 rounded-xl bg-white/90 backdrop-blur-md text-slate-800 border border-slate-200/80 shadow-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">Todos los estados</option>
+          {states.map((st) => (
+            <option key={st.id} value={st.id}>
+              {st.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="absolute top-4 right-4 z-20 pointer-events-none">
         <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/90 backdrop-blur-md text-slate-800 border border-slate-200/80 shadow-md text-xs font-bold transition">
           <span
