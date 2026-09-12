@@ -72,6 +72,9 @@ export interface ReportItem {
       color: string;
     };
   }>;
+  _count?: {
+    reportAdhesion: number;
+  };
 }
 
 export interface ReportsResponse {

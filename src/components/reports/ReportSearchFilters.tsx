@@ -14,6 +14,10 @@ interface ReportSearchFiltersProps {
   states: ReportStateItem[];
   categories: ReportCategoryItem[];
   onResetFilters: () => void;
+  sortBy: "date" | "adhesions";
+  setSortBy: (val: "date" | "adhesions") => void;
+  sortOrder: "asc" | "desc";
+  setSortOrder: (val: "asc" | "desc") => void;
 }
 
 export const ReportSearchFilters: React.FC<ReportSearchFiltersProps> = ({
@@ -26,6 +30,10 @@ export const ReportSearchFilters: React.FC<ReportSearchFiltersProps> = ({
   states,
   categories,
   onResetFilters,
+  sortBy,
+  setSortBy,
+  sortOrder,
+  setSortOrder,
 }) => {
   const isAllStatesSelected = selectedStateIds.length === 0;
   const isAllCategoriesSelected = selectedCategoryIds.length === 0;
@@ -38,8 +46,8 @@ export const ReportSearchFilters: React.FC<ReportSearchFiltersProps> = ({
   return (
     <div className="flex flex-col gap-4 bg-white p-5 rounded-2xl border border-slate-200/70 shadow-sm w-full">
       {/* Fila Superior: Buscador por Dirección / Zona / Palabra Clave */}
-      <div className="flex items-center gap-3">
-        <div className="relative flex-1">
+      <div className="flex flex-wrap items-center gap-3 w-full">
+        <div className="relative flex-1 min-w-[200px]">
           <MdSearch
             size={20}
             className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 z-10"
@@ -63,11 +71,32 @@ export const ReportSearchFilters: React.FC<ReportSearchFiltersProps> = ({
           )}
         </div>
 
+        {/* Controles de Ordenamiento */}
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-xs font-semibold text-slate-500">Ordenar por:</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "date" | "adhesions")}
+            className="px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-800/10"
+          >
+            <option value="date">Fecha</option>
+            <option value="adhesions">Adhesiones</option>
+          </select>
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+            className="px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-800/10"
+          >
+            <option value="desc">Descendente</option>
+            <option value="asc">Ascendente</option>
+          </select>
+        </div>
+
         {hasActiveFilters && (
           <button
             type="button"
             onClick={onResetFilters}
-            className="inline-flex items-center gap-1.5 px-3.5 py-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 text-xs font-bold transition cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 text-xs font-bold transition cursor-pointer shrink-0"
           >
             <MdFilterList size={16} />
             <span>Limpiar filtros</span>
