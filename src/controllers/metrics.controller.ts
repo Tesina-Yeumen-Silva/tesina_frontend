@@ -1,3 +1,4 @@
+"use server";
 import { api } from "@/lib/api";
 import { toFailure } from "@/lib/validation";
 import { ActionResult } from "@/models";
