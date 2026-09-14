@@ -16,8 +16,8 @@ export interface DashboardMetrics {
 
 export async function getDashboardMetricsAction(): Promise<ActionResult<DashboardMetrics>> {
   try {
-    const response: any = await api.get("/reports/metrics");
-    return { ok: true, data: response.data.data };
+    const response = await api.get<DashboardMetrics>("/reports/metrics");
+    return { ok: true, data: response };
   } catch (error) {
     return toFailure(error);
   }
