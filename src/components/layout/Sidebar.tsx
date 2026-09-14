@@ -31,6 +31,7 @@ const Sidebar = ({
     const baseViews = [
       { name: "Mapa", path: "reportMap" },
       { name: "Lista", path: "reportList" },
+      { name: "Métricas", path: "metrics" },
       { name: "Usuarios", path: "users" },
     ];
 
