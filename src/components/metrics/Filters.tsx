@@ -49,7 +49,7 @@ export const MetricsFilters: React.FC<FiltersProps> = ({ filters, setFilters, on
       </div>
       <div className="flex flex-col gap-1.5 flex-1 min-w-[140px]">
         <label className="text-sm font-semibold text-slate-600">Anonimato</label>
-        <select name="isAnonymous" value={filters.isAnonymous || ''} onChange={handleChange} className="border border-slate-300 rounded-lg p-2.5 text-slate-700 w-full bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+        <select name="isAnonymous" value={filters.isAnonymous !== undefined ? String(filters.isAnonymous) : ''} onChange={handleChange} className="border border-slate-300 rounded-lg p-2.5 text-slate-700 w-full bg-white focus:ring-2 focus:ring-blue-500 outline-none">
           <option value="">Todos</option>
           <option value="true">Anónimos</option>
           <option value="false">No Anónimos</option>
