@@ -27,7 +27,7 @@ interface UsersViewProps {
 const DEFAULT_ROLES: RoleOption[] = [
   { id: 1, name: "user" },
   { id: 2, name: "admin" },
-  { id: 3, name: "muni" },
+  { id: 3, name: "operador" },
 ];
 
 const UsersView = ({

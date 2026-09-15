@@ -1,7 +1,23 @@
 import React from "react";
+import ReportListView from "@/views/reportList/reportList.view";
+import {
+  getAllReportsAction,
+  getReportStatesAction,
+  getReportCategoriesAction,
+} from "@/controllers/report.controller";
 
-const ReportList = () => {
-  return <div></div>;
-};
+export default async function ReportListPage() {
+  const [reportsRes, statesRes, categoriesRes] = await Promise.all([
+    getAllReportsAction(1, 100),
+    getReportStatesAction(),
+    getReportCategoriesAction(),
+  ]);
 
-export default ReportList;
+  return (
+    <ReportListView
+      initialReportsResult={reportsRes}
+      initialStatesResult={statesRes}
+      initialCategoriesResult={categoriesRes}
+    />
+  );
+}
