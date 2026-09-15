@@ -40,6 +40,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({
               <Table.Column>Dirección / Ubicación</Table.Column>
               <Table.Column>Estado</Table.Column>
               <Table.Column>Fecha</Table.Column>
+              <Table.Column>Adhesiones</Table.Column>
               <Table.Column className="text-right">Acciones</Table.Column>
             </Table.Header>
             <Table.Body>
@@ -48,6 +49,7 @@ export const ReportTable: React.FC<ReportTableProps> = ({
                   <Table.Cell className="py-8 text-center text-sm text-slate-400">
                     No se encontraron reportes con los criterios de búsqueda aplicados.
                   </Table.Cell>
+                  <Table.Cell className="hidden">-</Table.Cell>
                   <Table.Cell className="hidden">-</Table.Cell>
                   <Table.Cell className="hidden">-</Table.Cell>
                   <Table.Cell className="hidden">-</Table.Cell>
