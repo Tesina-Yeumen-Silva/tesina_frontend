@@ -63,6 +63,14 @@ export const ReportModalHistory: React.FC<ReportModalHistoryProps> = ({
                       {h.observation}
                     </p>
                   )}
+                  {h.user && (
+                    <p className="text-[10.5px] text-slate-500 font-medium mt-1 pl-1">
+                      👤 Respondido por: <strong className="text-slate-700">{h.user.name}</strong>{" "}
+                      <span className="text-[9.5px] text-slate-400 uppercase">
+                        ({h.user.role?.name === "operador" ? "Operador" : h.user.role?.name === "admin" ? "Admin" : h.user.role?.name})
+                      </span>
+                    </p>
+                  )}
                 </div>
               ))}
             </div>

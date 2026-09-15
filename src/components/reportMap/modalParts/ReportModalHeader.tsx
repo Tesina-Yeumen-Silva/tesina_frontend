@@ -20,7 +20,7 @@ export const ReportModalHeader: React.FC<ReportModalHeaderProps> = ({
   onClose,
 }) => {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 pr-8 border-b border-slate-100 pb-3 w-full">
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3 w-full">
       <div>
         <h3 className="text-lg font-extrabold text-slate-800 tracking-tight">
           Reporte #{reportId}
@@ -41,7 +41,7 @@ export const ReportModalHeader: React.FC<ReportModalHeaderProps> = ({
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-4 top-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition cursor-pointer z-10"
+        className="p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition cursor-pointer z-10"
         aria-label="Cerrar modal"
       >
         <MdClose size={20} />

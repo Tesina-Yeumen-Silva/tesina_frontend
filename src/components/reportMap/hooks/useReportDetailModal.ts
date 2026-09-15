@@ -52,7 +52,7 @@ export function useReportDetailModal({
   const [loadingHistory, setLoadingHistory] = useState(false);
 
   const canChangeState =
-    currentUserRole === "admin" || currentUserRole === "muni";
+    currentUserRole === "admin" || currentUserRole === "operador";
 
   useEffect(() => {
     if (isOpen) {

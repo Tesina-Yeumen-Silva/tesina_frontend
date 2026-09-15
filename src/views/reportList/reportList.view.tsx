@@ -57,6 +57,10 @@ const ReportListView: React.FC<ReportListViewProps> = ({
     loadingHistory,
     historyError,
     handleViewReportHistory,
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder,
     currentUserRole,
     isMounted,
     refreshData,
@@ -85,6 +89,10 @@ const ReportListView: React.FC<ReportListViewProps> = ({
         states={states}
         categories={categories}
         onResetFilters={handleResetFilters}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
       />
 
       {/* Tabla Reutilizable de Reportes */}

@@ -21,6 +21,9 @@ import { USER_COOKIE } from "@/lib/config";
 
 const ITEMS_PER_PAGE = 10;
 
+export type SortOption = "date" | "adhesions";
+export type SortOrder = "asc" | "desc";
+
 const extractReports = (data: any): ReportItem[] => {
   if (!data) return [];
   if (Array.isArray(data)) return data;
@@ -152,9 +155,12 @@ export function useReportListState({
     setCurrentPage(1);
   };
 
-  // Filtrado reactivo en cliente con multi-selección simultánea
+  const [sortBy, setSortBy] = useState<SortOption>("date");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+
+  // Filtrado reactivo en cliente con multi-selección simultánea y ordenamiento
   const filteredReports = useMemo(() => {
-    return reports.filter((rep) => {
+    const result = reports.filter((rep) => {
       // 1. Filtro por Estado (Multi-Selección)
       if (selectedStateIds.length > 0) {
         const latestStateId = rep.reportHistory?.[0]?.state?.id;
@@ -185,7 +191,25 @@ export function useReportListState({
 
       return true;
     });
-  }, [reports, searchQuery, selectedStateIds, selectedCategoryIds]);
+
+    result.sort((a, b) => {
+      let valA = 0;
+      let valB = 0;
+      if (sortBy === "date") {
+        valA = new Date(a.createdAt).getTime();
+        valB = new Date(b.createdAt).getTime();
+      } else if (sortBy === "adhesions") {
+        valA = a._count?.reportAdhesion || 0;
+        valB = b._count?.reportAdhesion || 0;
+      }
+
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    return result;
+  }, [reports, searchQuery, selectedStateIds, selectedCategoryIds, sortBy, sortOrder]);
 
   // Paginación
   const totalItems = filteredReports.length;
@@ -269,6 +293,10 @@ export function useReportListState({
     loadingHistory,
     historyError,
     handleViewReportHistory,
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder,
     currentUserRole,
     isMounted,
     refreshData,

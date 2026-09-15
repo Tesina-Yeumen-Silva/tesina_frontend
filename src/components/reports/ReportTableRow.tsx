@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Table } from "@heroui/react";
-import { MdPlace, MdCalendarToday, MdVisibility, MdHistory, MdEdit } from "react-icons/md";
+import { MdPlace, MdCalendarToday, MdVisibility, MdHistory, MdEdit, MdThumbUp } from "react-icons/md";
 import type { ReportItem } from "@/models";
 import { getCategoryIcon } from "@/utils/categoryIcons";
 
@@ -68,6 +68,14 @@ export const ReportTableRow: React.FC<ReportTableRowProps> = ({
             {new Date(report.createdAt).toLocaleDateString("es-AR")}
           </span>
         </div>
+      </Table.Cell>
+
+      {/* Adhesiones */}
+      <Table.Cell className="text-xs font-bold text-slate-600">
+        <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-100 shadow-sm" title={`${report._count?.reportAdhesion || 0} adhesiones`}>
+          <MdThumbUp size={13} />
+          <span>{report._count?.reportAdhesion || 0}</span>
+        </span>
       </Table.Cell>
 
       {/* Acciones */}

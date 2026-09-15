@@ -39,6 +39,13 @@ export interface ReportHistoryItem {
   stateId: number;
   observation: string;
   createdAt: string;
+  user?: {
+    id: number;
+    name: string;
+    role?: {
+      name: string;
+    };
+  } | null;
   state: {
     name: string;
     color: string;
@@ -65,6 +72,9 @@ export interface ReportItem {
       color: string;
     };
   }>;
+  _count?: {
+    reportAdhesion: number;
+  };
 }
 
 export interface ReportsResponse {

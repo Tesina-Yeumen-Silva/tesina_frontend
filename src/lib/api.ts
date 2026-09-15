@@ -54,7 +54,24 @@ async function request<T>(
   }
 
   const text = await res.text();
-  const payload = text ? JSON.parse(text) : null;
+  let payload: any = null;
+
+  if (text) {
+    try {
+      payload = JSON.parse(text);
+    } catch (e) {
+      if (!res.ok) {
+        throw new ApiError(
+          `El servidor respondió con un error y un formato inesperado (HTML). Verifica que el proxy o contenedor (ej: ngrok, docker) esté funcionando correctamente. Estado HTTP: ${res.status}`,
+          res.status
+        );
+      }
+      throw new ApiError(
+        "Se recibió una respuesta exitosa, pero no está en formato JSON. Verifica la URL de la API.",
+        500
+      );
+    }
+  }
 
   if (!res.ok) {
     if (res.status === 401 && !skipAuth) redirect("/login");
