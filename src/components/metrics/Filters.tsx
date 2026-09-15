@@ -39,16 +39,17 @@ export const MetricsFilters: React.FC<FiltersProps> = ({ filters, setFilters, on
       </div>
       <div className="flex flex-col gap-1.5 flex-1 min-w-[160px]">
         <label className="text-sm font-semibold text-slate-600">Categoría</label>
-        <select name="categoryId" value={filters.categoryId || ''} onChange={handleChange} className="border border-slate-300 rounded-lg p-2.5 text-slate-700 w-full bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+        <select name="categoryId" value={filters.categoryId || ''} onChange={handleChange} className="border border-slate-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 bg-white">
           <option value="">Todas</option>
-          {categories.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+          {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </div>
+
       <div className="flex flex-col gap-1.5 flex-1 min-w-[160px]">
-        <label className="text-sm font-semibold text-slate-600">Estado</label>
-        <select name="stateId" value={filters.stateId || ''} onChange={handleChange} className="border border-slate-300 rounded-lg p-2.5 text-slate-700 w-full bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+        <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">Estado</label>
+        <select name="stateId" value={filters.stateId || ''} onChange={handleChange} className="border border-slate-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 bg-white">
           <option value="">Todos</option>
-          {states.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
+          {states.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
         </select>
       </div>
       <div className="flex flex-col gap-1.5 flex-1 min-w-[140px]">
