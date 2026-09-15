@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getReportCategoriesAction, getReportStatesAction } from '@/controllers/report.controller';
 import type { ReportCategoryItem, ReportStateItem } from '@/models';
+import type { MetricsFilter } from '@/controllers/metrics.controller';
 
 interface FiltersProps {
-  filters: {
-    fromDate?: string;
-    toDate?: string;
-    categoryId?: string;
-    stateId?: string;
-    isAnonymous?: string;
-  };
+  filters: MetricsFilter;
   setFilters: (filters: any) => void;
   onApply: () => void;
 }
