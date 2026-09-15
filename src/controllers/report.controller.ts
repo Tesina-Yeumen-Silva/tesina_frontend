@@ -27,10 +27,11 @@ export async function getMapMarkersAction(
 
 export async function getAllReportsAction(
   page = 1,
-  limit = 100
+  limit = 10,
+  query?: any
 ): Promise<ActionResult<ReportsResponse>> {
   try {
-    const res = await reportService.getAllReports(page, limit);
+    const res = await reportService.getAllReports(page, limit, query);
     return { ok: true, data: res };
   } catch (error) {
     return toFailure(error);
