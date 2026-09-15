@@ -22,6 +22,7 @@ import { UserPasswordModal } from "@/components/users/UserPasswordModal";
 interface UsersViewProps {
   initialResult: ActionResult<ApiResponse<User[]>>;
   initialSearch: string;
+  currentUserRole?: string;
 }
 
 const DEFAULT_ROLES: RoleOption[] = [
@@ -33,6 +34,7 @@ const DEFAULT_ROLES: RoleOption[] = [
 const UsersView = ({
   initialResult,
   initialSearch,
+  currentUserRole: initialUserRole,
 }: UsersViewProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -41,7 +43,7 @@ const UsersView = ({
 
   const [isMounted, setIsMounted] = useState(false);
   const [roles, setRoles] = useState<RoleOption[]>(DEFAULT_ROLES);
-  const [currentUserRole, setCurrentUserRole] = useState<string>("");
+  const [currentUserRole, setCurrentUserRole] = useState<string>(initialUserRole || "");
 
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [userToEdit, setUserToEdit] = useState<User | null>(null);
@@ -53,17 +55,6 @@ const UsersView = ({
 
   useEffect(() => {
     setIsMounted(true);
-    if (typeof window !== "undefined") {
-      const match = document.cookie.match(
-        new RegExp(`(^| )${USER_COOKIE}=([^;]+)`)
-      );
-      if (match) {
-        try {
-          const u = JSON.parse(decodeURIComponent(match[2]));
-          setCurrentUserRole(u?.role || "");
-        } catch (e) {}
-      }
-    }
 
     getRolesAction().then((res) => {
       if (res.ok && res.data.length > 0) {
