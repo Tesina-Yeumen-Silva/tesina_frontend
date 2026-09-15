@@ -167,8 +167,8 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
   };
 
   return (
-    <div className="w-full h-screen relative overflow-hidden bg-slate-100">
-      <div className="absolute top-4 left-4 z-20 flex flex-col md:flex-row gap-2">
+    <div className="w-full h-[85dvh] relative overflow-hidden bg-slate-100">
+      <div className="absolute top-4 left-16 z-20 flex flex-col md:flex-row gap-2">
         <select
           value={selectedCategoryId}
           onChange={(e) => setSelectedCategoryId(e.target.value)}
