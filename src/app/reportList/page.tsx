@@ -5,12 +5,14 @@ import {
   getReportStatesAction,
   getReportCategoriesAction,
 } from "@/controllers/report.controller";
+import { getCurrentUser } from "@/lib/session";
 
 export default async function ReportListPage() {
-  const [reportsRes, statesRes, categoriesRes] = await Promise.all([
-    getAllReportsAction(1, 100),
+  const [reportsRes, statesRes, categoriesRes, user] = await Promise.all([
+    getAllReportsAction(1, 10),
     getReportStatesAction(),
     getReportCategoriesAction(),
+    getCurrentUser(),
   ]);
 
   return (
@@ -18,6 +20,7 @@ export default async function ReportListPage() {
       initialReportsResult={reportsRes}
       initialStatesResult={statesRes}
       initialCategoriesResult={categoriesRes}
+      currentUserRole={user?.role || ""}
     />
   );
 }

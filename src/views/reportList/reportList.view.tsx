@@ -19,12 +19,14 @@ interface ReportListViewProps {
   initialReportsResult?: ActionResult<ReportsResponse | ReportItem[]>;
   initialStatesResult?: ActionResult<ReportStateItem[]>;
   initialCategoriesResult?: ActionResult<ReportCategoryItem[]>;
+  currentUserRole?: string;
 }
 
 const ReportListView: React.FC<ReportListViewProps> = ({
   initialReportsResult,
   initialStatesResult,
   initialCategoriesResult,
+  currentUserRole: initialUserRole,
 }) => {
   const {
     states,
@@ -68,6 +70,7 @@ const ReportListView: React.FC<ReportListViewProps> = ({
     initialReportsResult,
     initialStatesResult,
     initialCategoriesResult,
+    initialUserRole,
   });
 
   return (

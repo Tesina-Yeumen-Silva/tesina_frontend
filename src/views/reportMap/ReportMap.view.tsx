@@ -26,10 +26,12 @@ const Map = dynamic(() => import("@/components/reportMap/OsmMap"), {
 
 interface ReportMapViewProps {
   initialMarkersResult?: ActionResult<MapMarker[]>;
+  currentUserRole?: string;
 }
 
 const ReportMapView: React.FC<ReportMapViewProps> = ({
   initialMarkersResult,
+  currentUserRole: initialUserRole,
 }) => {
   const [markers, setMarkers] = useState<MapMarker[]>(() => {
     if (initialMarkersResult?.ok && Array.isArray(initialMarkersResult.data)) {
@@ -40,7 +42,7 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
 
   const [loadingMarkers, setLoadingMarkers] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState<string>("");
-  const [currentUserRole, setCurrentUserRole] = useState<string>("");
+  const [currentUserRole, setCurrentUserRole] = useState<string>(initialUserRole || "");
   const currentBoundsRef = useRef<MapBounds | null>(null);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -64,26 +66,10 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
       }
       const statesRes = await getReportStatesAction();
       if (statesRes.ok && statesRes.data) {
-        // Exclude some states if we only want Validado, Resuelto, En Progreso, but the user requested to filter markers by state. 
-        // We'll provide all fetched valid states.
         setStates(statesRes.data);
       }
     }
     loadFilters();
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const match = document.cookie.match(
-        new RegExp(`(^| )${USER_COOKIE}=([^;]+)`),
-      );
-      if (match) {
-        try {
-          const u = JSON.parse(decodeURIComponent(match[2]));
-          setCurrentUserRole(u?.role || "");
-        } catch (e) {}
-      }
-    }
   }, []);
 
   const fetchMarkersForBounds = useCallback(async (bounds: MapBounds, catId?: string, stId?: string) => {
@@ -106,16 +92,7 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
     if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
       setMarkers(res.data);
     } else if (res.ok && Array.isArray(res.data)) {
-      // Si la consulta por bounds retornó 0 marcadores en esa vista, intentamos cargar todos como fallback (con los mismos filtros)
-      const fallbackQuery: any = {};
-      if (catId) fallbackQuery.categoryId = Number(catId);
-      if (stId) fallbackQuery.stateId = Number(stId);
-      const fallbackRes = await getMapMarkersAction(fallbackQuery);
-      if (fallbackRes.ok && Array.isArray(fallbackRes.data)) {
-        setMarkers(fallbackRes.data);
-      } else {
-        setMarkers([]);
-      }
+      setMarkers([]);
     } else if (!res.ok) {
       setApiErrorMessage(res.error || "No se pudo conectar con el backend.");
     }
@@ -209,7 +186,9 @@ const ReportMapView: React.FC<ReportMapViewProps> = ({
           <span>
             {apiErrorMessage
               ? "Error conectando al backend"
-              : `${markers.length} ${markers.length === 1 ? "marcador visible" : "marcadores visibles"}`}
+              : markers.length === 0
+                ? "No hay reportes en esta zona"
+                : `${markers.length} ${markers.length === 1 ? "marcador visible" : "marcadores visibles"}`}
           </span>
         </div>
       </div>

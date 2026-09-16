@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { MdPhotoCamera, MdRefresh } from "react-icons/md";
 
 interface ReportModalImageProps {
@@ -47,12 +48,15 @@ export const ReportModalImage: React.FC<ReportModalImageProps> = ({
             </div>
           )}
           {imageUrl ? (
-            <img
+            <Image
               src={imageUrl}
               alt={`Evidencia reporte #${reportId}`}
               onLoad={onImageLoaded}
               onError={onImageLoaded}
+              width={500}
+              height={500}
               className="w-full h-auto max-h-64 object-contain"
+              unoptimized
             />
           ) : (
             <div className="py-8 text-center text-xs text-slate-400">

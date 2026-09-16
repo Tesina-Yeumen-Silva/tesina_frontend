@@ -17,7 +17,8 @@ export const reportService = {
     if (query?.maxLat) params.append("maxLat", String(query.maxLat));
     if (query?.minLng) params.append("minLng", String(query.minLng));
     if (query?.maxLng) params.append("maxLng", String(query.maxLng));
-    if (query?.categoryId) params.append("categoryId", String(query.categoryId));
+    if (query?.categoryId)
+      params.append("categoryId", String(query.categoryId));
     if (query?.stateId) params.append("stateId", String(query.stateId));
 
     const queryString = params.toString();
@@ -26,8 +27,26 @@ export const reportService = {
     return api.get<MapMarker[]>(path);
   },
 
-  getAllReports: (page = 1, limit = 100) => {
-    return api.get<ReportsResponse>(`/reports?page=${page}&limit=${limit}`);
+  getAllReports: (page = 1, limit = 10, query?: any) => {
+    const params = new URLSearchParams();
+    params.append("page", String(page));
+    params.append("limit", String(limit));
+
+    if (query) {
+      if (query.categoryId)
+        params.append("categoryId", String(query.categoryId));
+      if (query.stateId) params.append("stateId", String(query.stateId));
+      if (query.search) params.append("search", query.search);
+      if (query.sortBy) params.append("sortBy", query.sortBy);
+      if (query.sortOrder) params.append("sortOrder", query.sortOrder);
+
+      if (query.minLat) params.append("minLat", String(query.minLat));
+      if (query.maxLat) params.append("maxLat", String(query.maxLat));
+      if (query.minLng) params.append("minLng", String(query.minLng));
+      if (query.maxLng) params.append("maxLng", String(query.maxLng));
+    }
+
+    return api.get<ReportsResponse>(`/reports?${params.toString()}`);
   },
 
   getReportById: (id: number) => {

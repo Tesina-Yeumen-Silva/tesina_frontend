@@ -13,21 +13,6 @@ const Sidebar = ({
   const [views, setViews] = useState<{ name: string; path: string }[]>([]);
 
   useEffect(() => {
-    let userRole = "";
-    if (typeof window !== "undefined") {
-      const match = document.cookie.match(
-        new RegExp(`(^| )${USER_COOKIE}=([^;]+)`),
-      );
-      if (match) {
-        try {
-          const user = JSON.parse(decodeURIComponent(match[2]));
-          userRole = user?.role || "";
-        } catch (e) {
-          // Ignore
-        }
-      }
-    }
-
     const baseViews = [
       { name: "Mapa", path: "reportMap" },
       { name: "Lista", path: "reportList" },
