@@ -41,19 +41,19 @@ export const MetricsCharts: React.FC<ChartsProps> = ({ metrics }) => {
           <h3 className="font-bold text-lg mb-4 text-slate-800">Reportes por Categoría</h3>
           <div className="h-[380px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={metrics.reportsByCategory} margin={{ top: 10, right: 15, left: -15, bottom: 40 }}>
+              <BarChart data={metrics.reportsByCategory} margin={{ top: 10, right: 20, left: 45, bottom: 45 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis 
                   dataKey="name" 
                   tick={{ fontSize: 11, fill: '#475569' }} 
                   interval={0} 
-                  angle={-45} 
+                  angle={-40} 
                   textAnchor="end" 
-                  height={95}
-                  dx={-4}
-                  dy={4}
+                  height={100}
+                  dx={-2}
+                  dy={6}
                 />
-                <YAxis tick={{ fontSize: 12, fill: '#475569' }} allowDecimals={false} />
+                <YAxis tick={{ fontSize: 12, fill: '#475569' }} allowDecimals={false} width={30} />
                 <RechartsTooltip />
                 <Bar dataKey="count" name="Cantidad" fill="#10b981" radius={[4, 4, 0, 0]} />
               </BarChart>
