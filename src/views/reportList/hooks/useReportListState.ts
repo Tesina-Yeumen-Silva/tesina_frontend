@@ -43,8 +43,10 @@ export function useReportListState({
     return [];
   });
   const [totalItems, setTotalItems] = useState(() => {
-    if (initialReportsResult?.ok && (initialReportsResult.data as any)?.totalReports !== undefined) {
-      return (initialReportsResult.data as any).totalReports;
+    if (initialReportsResult?.ok) {
+      const d = initialReportsResult.data as any;
+      if (d?.totalReports !== undefined) return d.totalReports;
+      if (d?.meta?.totalItems !== undefined) return d.meta.totalItems;
     }
     return 0;
   });
@@ -89,8 +91,11 @@ export function useReportListState({
     
     if (res.ok) {
       setReports(extractReports(res.data));
-      if ((res.data as any)?.totalReports !== undefined) {
-        setTotalItems((res.data as any).totalReports);
+      const d = res.data as any;
+      if (d?.totalReports !== undefined) {
+        setTotalItems(d.totalReports);
+      } else if (d?.meta?.totalItems !== undefined) {
+        setTotalItems(d.meta.totalItems);
       }
     }
   }, [pagination.currentPage, pagination.ITEMS_PER_PAGE, filters.searchQuery, filters.selectedStateIds, filters.selectedCategoryIds, filters.sortBy, filters.sortOrder]);

@@ -46,7 +46,9 @@ export const reportService = {
       if (query.maxLng) params.append("maxLng", String(query.maxLng));
     }
 
-    return api.get<ReportsResponse>(`/reports?${params.toString()}`);
+    return api.get<ReportsResponse>(`/reports?${params.toString()}`, {
+      returnFullResponse: true,
+    });
   },
 
   getReportById: (id: number) => {
