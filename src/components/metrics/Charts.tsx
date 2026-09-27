@@ -39,12 +39,21 @@ export const MetricsCharts: React.FC<ChartsProps> = ({ metrics }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <h3 className="font-bold text-lg mb-4 text-slate-800">Reportes por Categoría</h3>
-          <div className="h-72 w-full">
+          <div className="h-[380px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={metrics.reportsByCategory} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <BarChart data={metrics.reportsByCategory} margin={{ top: 10, right: 15, left: -15, bottom: 40 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{fontSize: 11}} interval={0} angle={-45} textAnchor="end" height={60} />
-                <YAxis tick={{fontSize: 12}} />
+                <XAxis 
+                  dataKey="name" 
+                  tick={{ fontSize: 11, fill: '#475569' }} 
+                  interval={0} 
+                  angle={-45} 
+                  textAnchor="end" 
+                  height={95}
+                  dx={-4}
+                  dy={4}
+                />
+                <YAxis tick={{ fontSize: 12, fill: '#475569' }} allowDecimals={false} />
                 <RechartsTooltip />
                 <Bar dataKey="count" name="Cantidad" fill="#10b981" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -54,7 +63,7 @@ export const MetricsCharts: React.FC<ChartsProps> = ({ metrics }) => {
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <h3 className="font-bold text-lg mb-4 text-slate-800">Reportes por Estado</h3>
-          <div className="h-72 w-full">
+          <div className="h-[380px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
