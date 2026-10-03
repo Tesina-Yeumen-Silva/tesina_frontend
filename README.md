@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mendoza Reporta - Panel de Control Web (Frontend)
 
-## Getting Started
+Este repositorio aloja la interfaz administrativa e institucional para el sistema **Mendoza Reporta**. Se trata de un *Dashboard* diseñado para funcionarios públicos, operadores del centro de monitoreo municipal y administradores que requieren una vista global de los incidentes urbanos.
 
-First, run the development server:
+## 🚀 Tecnologías Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Librería UI**: [React](https://reactjs.org/) con [Tailwind CSS](https://tailwindcss.com/)
+- **Mapas y Geoposicionamiento**: Mapbox GL JS / React Map GL
+- **Visualización de Datos**: Recharts (para métricas y tableros estadísticos)
+- **Control de Estado**: React Hooks nativos y Context API
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧩 Funcionalidades Clave
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Tablero de Métricas (Dashboard)**: Visualización analítica del estado de la infraestructura municipal, filtrado temporal, gráficos de tendencias y segmentación de reportes.
+- **Vista de Mapa**: Interfaz geoespacial con clústeres para visualizar zonas de calor y focos de densidad de incidentes en el territorio.
+- **Gestión de Reportes**: Tabla interactiva con filtros avanzados, búsqueda difusa y soporte para paginación profunda impulsada desde el servidor.
+- **Auditoría IA (Piloto)**: Visibilidad de los estados y determinaciones automáticas logradas por el motor de validación multimodal.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Requisitos Previos
 
-## Learn More
+- **Node.js** v18 o superior.
+- Una instancia activa de la API Core (Node.js) de Mendoza Reporta.
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Configuración del Entorno
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clonar el repositorio y copiar el archivo de configuración base:
+   ```bash
+   cp .env.example .env
+   ```
+2. Asegurar que la variable `NEXT_PUBLIC_API_URL` apunte a la ruta de despliegue o instancia local del backend principal.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Instalación y Uso Local
 
-## Deploy on Vercel
+1. Instalar las dependencias de Next.js:
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Ejecutar en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Navegar a `http://localhost:3000` en el explorador web. Para generar una versión compilada optimizada para producción, se puede utilizar el comando `npm run build`.
+
+## 🤝 Estilo y Patrones
+
+El desarrollo en este repositorio exige seguir las pautas de uso de `use client` en componentes que necesiten interactividad del lado del usuario y mantener desacoplada la capa de conexión HTTP en `src/services/` de la capa de vista de los componentes (`src/views/`).
