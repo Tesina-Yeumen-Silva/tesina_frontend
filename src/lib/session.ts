@@ -12,7 +12,6 @@ import type { Role } from "@/models/role";
 export interface SessionUser {
   id: number;
   email: string;
-  name: string;
   role: Role;
 }
 
@@ -75,7 +74,7 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
 
   try {
     const parsed = JSON.parse(raw) as Partial<SessionUser>;
-    if (!parsed.id || !parsed.email || !parsed.name || !parsed.role) {
+    if (!parsed.id || !parsed.email || !parsed.role) {
       return null;
     }
     return parsed as SessionUser;
